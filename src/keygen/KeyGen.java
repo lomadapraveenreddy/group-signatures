@@ -2,10 +2,8 @@ package src.keygen;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrElement;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
-import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,12 +31,5 @@ public class KeyGen {
                 (ZrElement) pairing.getZr().newRandomElement().getImmutable(), z);
     }
 
-    public static Pairing createPairing() {
-        int rBits = 160;
-        int qBits = 512;
-
-        final TypeACurveGenerator pairingGenerator = new TypeACurveGenerator(rBits, qBits);
-        final PairingParameters params = pairingGenerator.generate();
-        return PairingFactory.getPairing(params);
-    }
+    
 }
