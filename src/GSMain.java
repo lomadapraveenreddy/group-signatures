@@ -37,18 +37,21 @@ public class GSMain {
     public static void main(String[] args) {
         GSPairing gsPairing = new GSPairing();
         final KeyPair managerKeyPair = generateKeyPair(gsPairing, 1);
-        // final GroupManagerCert grpManagerCert = new GroupManagerCert(managerKeyPair);
+        final GroupManagerCert grpManagerCert = new GroupManagerCert(managerKeyPair);
         //managerKeyPair.print();
         final RevocKeyPair revocKeyPair = generateRevocKeyPair(gsPairing);
         //revocKeyPair.print();
-        final Element pReceived= gsPairing.getg().powZn(gsPairing.getPairing().getZr().newRandomElement().getImmutable());
-        final GroupMemberCert grpMemberCert = joinRequest(gsPairing, managerKeyPair.getSk(),pReceived);
-        // grpManagerCert.addDetailsOfNewMember(gsPairing,pReceived);
-        GroupSignature gs= GroupSignature.sign(gsPairing, grpMemberCert, gsPairing.getPairing().getZr().newRandomElement().getImmutable());
-        System.out.println(gs.verify(gsPairing, managerKeyPair.getPk().getY()));
-        // grpMemberCert.print();
-        // byte[] hash='';
-        // gsPairing.getPairing().getZr().newElement().setFromHash(hash, 0, hash.length);
+        final Element pSent= gsPairing.getg().powZn(gsPairing.getPairing().getZr().newRandomElement().getImmutable());
+        System.out.println("** P sent **\n"+pSent+"\n\n");
+        final GroupMemberCert grpMemberCert = joinRequest(gsPairing, managerKeyPair.getSk(),pSent);
+         grpManagerCert.addDetailsOfNewMember(gsPairing,pSent);
+        GroupSignature gs= GroupSignature.sign(gsPairing, grpMemberCert,revocKeyPair.getPk(),pSent, gsPairing.getPairing().getZr().newRandomElement().getImmutable());
+        System.out.println("-------\n signature verfied:"+gs.verify(gsPairing,revocKeyPair.getSk(), managerKeyPair.getPk().getY()));
+        grpManagerCert.grpMemberDetailsStored.get(0).getpCalculated();
+        System.out.println("\n-- P stored--\n"+grpManagerCert.grpMemberDetailsStored.get(0).getpCalculated());
+        
+        System.out.println("\n\n---------\n P verified: "+gs.verifyPFromSign(revocKeyPair.getSk(),gsPairing.getPairing().pairing(pSent, gsPairing.getg())));
+        
 
     }    
 }

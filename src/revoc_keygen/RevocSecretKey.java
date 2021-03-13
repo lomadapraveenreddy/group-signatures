@@ -7,17 +7,17 @@ public class RevocSecretKey {
 
     private ZrElement x1;
     private ZrElement x2;
-    private ZrElement x3;
-    private ZrElement x4;
-    private ZrElement x5;
+    private ZrElement y1;
+    private ZrElement y2;
+    private ZrElement z;
 
-    public RevocSecretKey(final ZrElement x1, final ZrElement x2, final ZrElement x3, final ZrElement x4,
-            final ZrElement x5) {
+    public RevocSecretKey(final ZrElement x1, final ZrElement x2, final ZrElement y1, final ZrElement y2,
+            final ZrElement z) {
         this.x1 = x1;
         this.x2 = x2;
-        this.x3 = x3;
-        this.x4 = x4;
-        this.x5 = x5;
+        this.y1 = y1;
+        this.y2 = y2;
+        this.z = z;
 
     }
 
@@ -29,15 +29,15 @@ public class RevocSecretKey {
         return x2;
     }
 
-    public ZrElement getx3() {
-        return x3;
+    public ZrElement gety1() {
+        return y1;
     }
 
-    public ZrElement getx4() {
-        return x4;
+    public ZrElement gety2() {
+        return y2;
     }
 
-    public ZrElement getx5() {
-        return x5;
+    public ZrElement getz() {
+        return z;
     }
 }

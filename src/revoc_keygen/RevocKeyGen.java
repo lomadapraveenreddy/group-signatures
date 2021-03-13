@@ -4,7 +4,6 @@ import it.unisa.dia.gas.jpbc.Pairing;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.plaf.jpbc.field.z.ZrElement;
-import src.revoc_keygen.RevocKeyPair;
 import src.utils.GSPairing;
 
 public class RevocKeyGen {
@@ -21,15 +20,16 @@ public class RevocKeyGen {
     }
 
     public static RevocPublicKey createPublicKey(final GSPairing gsPairing, final RevocSecretKey sk) {
-        final ZrElement h =(ZrElement) gsPairing.getPairing().getZr().newRandomElement().getImmutable();
-        final Element gt = gsPairing.getgt();
+        final Element g1 = gsPairing.getPairing().getG1().newRandomElement().getImmutable();
+        final Element g2 = gsPairing.getPairing().getG1().newRandomElement().getImmutable();
+        
         // System.out.println("in create h --");
         // System.out.println(h);
-        final Element y1 = h.powZn(sk.getx2()).mulZn(gt.powZn(sk.getx1()));
-        final Element y2= h.powZn(sk.getx4()).mulZn(gt.powZn(sk.getx3()));
-        final Element y3= gt.powZn(sk.getx5());
+        final Element c = g1.powZn(sk.getx1()).mul(g2.powZn(sk.getx2()));
+        final Element d= g1.powZn(sk.gety1()).mul(g2.powZn(sk.gety2()));
+        final Element h= g1.powZn(sk.getz());
         
-        return new RevocPublicKey(gsPairing.getPairing(),h,y1,y2,y3);
+        return new RevocPublicKey(gsPairing.getPairing(),g1,g2,c,d,h);
     }
 
 }

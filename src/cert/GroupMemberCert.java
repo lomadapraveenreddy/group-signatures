@@ -6,11 +6,13 @@ public class GroupMemberCert {
     private final Element a;
     private final Element b;
     private final Element c;
+    private final Element pSent;
 
-    public GroupMemberCert(Element a, Element b, Element c) {
+    public GroupMemberCert(Element a, Element b, Element c,Element pSent) {
         this.a = a;
         this.b = b;
         this.c = c;
+        this.pSent= pSent;
     }
     public void print(){
         System.out.println("---- Grp Member Cert ----");
@@ -26,5 +28,8 @@ public class GroupMemberCert {
     }
     public Element getc() {
         return c;
-    }
+   }
+   public Element getpSent() {
+    return pSent;
+}
 }

@@ -15,6 +15,6 @@ public class Join {
         final Element ax= a.powZn(sk.getx());
         
         final Element c= ax.mul(prxy);
-        return new GroupMemberCert(a,b,c);
+        return new GroupMemberCert(a,b,c,pReceived);
     }
 }

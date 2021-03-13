@@ -16,6 +16,7 @@ public class GroupManagerCert {
     }
 
     public void addDetailsOfNewMember(GSPairing gsPairing,Element pReceived ){
+        
         grpMemberDetailsStored.add(new GrpMemberDetailsToBeStored(gsPairing,pReceived));
 
     }

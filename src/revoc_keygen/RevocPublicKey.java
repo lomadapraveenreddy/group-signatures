@@ -1,5 +1,7 @@
 package src.revoc_keygen;
 
+import java.math.BigInteger;
+
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 
@@ -7,35 +9,44 @@ import it.unisa.dia.gas.jpbc.Pairing;
 public class RevocPublicKey {
 
     private Pairing pairing;
+    private BigInteger q;
+    private Element g1;
+    private Element g2;
+    private Element c;
+    private Element d;
     private Element h;
-    private Element y1;
-    private Element y2;
-    private Element y3;
 
-    public  RevocPublicKey(final Pairing pairing, final Element h, final Element y1, final Element y2, final Element y3) {
+    public  RevocPublicKey(final Pairing pairing, final Element g1, final Element g2, final Element c, final Element d,final Element h) {
         this.pairing = pairing;
-        this.h =h;
-        this.y1 =y1;
-        this.y2 =y2;
-        this.y3=y3;
+        this.q = pairing.getG1().getOrder();
+        this.g1 =g1;
+        this.g2 =g2;
+        this.c =c;
+        this.d =d;
+        this.h=h;
     }
 
     public Pairing getPairing() {
         return pairing;
     }
+    public BigInteger getOrder() {
+        return q;
+    }
+    public Element getg1() {
+        return g1;
+    }
+    public Element getg2() {
+        return g2;
+    }
 
+    public Element getc() {
+        return c;
+    }
+    public Element getd() {
+        return d;
+    }
     public Element geth() {
         return h;
-    }
-
-    public Element gety1() {
-        return y1;
-    }
-    public Element gety2() {
-        return y2;
-    }
-    public Element gety3() {
-        return y3;
     }
 
 }
