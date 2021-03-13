@@ -12,12 +12,16 @@ public class RevocKeyGen {
 
     public static RevocSecretKey createSecretKey(final GSPairing gsPairing) {
         final Pairing pairing=gsPairing.getPairing();
-        return new RevocSecretKey((ZrElement) pairing.getZr().newRandomElement().getImmutable(),
-                (ZrElement) pairing.getZr().newRandomElement().getImmutable(),(ZrElement) pairing.getZr().newRandomElement().getImmutable(),(ZrElement) pairing.getZr().newRandomElement().getImmutable(),(ZrElement) pairing.getZr().newRandomElement().getImmutable());
+        return new RevocSecretKey(
+                (ZrElement) pairing.getZr().newRandomElement().getImmutable(),
+                (ZrElement) pairing.getZr().newRandomElement().getImmutable(),
+                (ZrElement) pairing.getZr().newRandomElement().getImmutable(),
+                (ZrElement) pairing.getZr().newRandomElement().getImmutable(),
+                (ZrElement) pairing.getZr().newRandomElement().getImmutable());
     }
 
     public static RevocPublicKey createPublicKey(final GSPairing gsPairing, final RevocSecretKey sk) {
-        final Element h = gsPairing.getPairing().getG1().newRandomElement().getImmutable();
+        final ZrElement h =(ZrElement) gsPairing.getPairing().getZr().newRandomElement().getImmutable();
         final Element gt = gsPairing.getgt();
         // System.out.println("in create h --");
         // System.out.println(h);

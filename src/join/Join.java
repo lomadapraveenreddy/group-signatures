@@ -1,9 +1,10 @@
 package src.join;
 
-import src.group_member.GroupMemberCert;
+import src.cert.GroupMemberCert;
 import src.keygen.SecretKey;
 import src.utils.GSPairing;
 import it.unisa.dia.gas.jpbc.Element;
+
 public class Join {
     public static GroupMemberCert joinRequest(final GSPairing gsPairing,final SecretKey sk,final Element pReceived){
         final Element r=gsPairing.getPairing().getZr().newRandomElement().getImmutable();
