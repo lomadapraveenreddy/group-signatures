@@ -1,6 +1,8 @@
 package src.sign;
 
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.plaf.jpbc.field.z.ZrElement;
+
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 
@@ -50,11 +52,13 @@ public class GroupSignature {
         final Element aBar = grpMemberCert.geta().powZn(r1);
         final Element bBar = grpMemberCert.getb().powZn(r1);
         final Element cCap = grpMemberCert.getc().powZn(r1.mulZn(r));
-        final Element k = gsPairing.getPairing().getZr().newRandomElement().getImmutable();
+        final Element k = (Element)gsPairing.getPairing().getZr().newRandomElement().getImmutable();
         final Element u1 = revocPublicKey.getg1().powZn(k);
         final Element u2 = revocPublicKey.getg2().powZn(k);
-        final Element e = (revocPublicKey.geth().powZn(k)).mulZn(gsPairing.getPairing().pairing(pSent,gsPairing.getg()));
-        System.out.println("\n--- P while signing---\n"+gsPairing.getPairing().pairing(pSent,gsPairing.getg()));
+        final Element encryptValue = pSent;//gsPairing.getPairing().getG1().newRandomElement().getImmutable();
+        System.out.println("\n-- encryptValue --\n\n"+encryptValue);
+        final Element e = (revocPublicKey.geth().powZn(k)).mul(encryptValue);//gsPairing.getPairing().pairing(pSent,gsPairing.getg())
+        //System.out.println("\n--- P while signing---\n"+gsPairing.getPairing().pairing(pSent,gsPairing.getg()));
         try {
             final BigInteger alpha = new BigInteger(1, HashSHA256.getHash(u1.add(u2).add(e).toString()));
             final Element v = (revocPublicKey.getc().powZn(k)).mul(revocPublicKey.getd().powZn(k.mul(alpha)));
@@ -77,7 +81,7 @@ public class GroupSignature {
                 final Element u1y1u2y2= u1.powZn(revocSecretKey.gety1()).mul(u2.powZn(revocSecretKey.gety2()));
                 isValid= a && u1x1u2x2.mul(u1y1u2y2.pow(alpha)).isEqual(v);
                 if(isValid){
-                    System.out.println("---- value of P from verify is -----\n\n"+e.div(u1.powZn(revocSecretKey.getz())));
+                    System.out.println("---- value of P from verify is -----\n\n"+e.div((u1.powZn(revocSecretKey.getz()))));
                 }
             } catch (NoSuchAlgorithmException e) {
                 System.out.println("---- error in calculating hash while verifying -----");
@@ -89,8 +93,8 @@ public class GroupSignature {
                     .isEqual(gsPairing.getPairing().pairing(gsPairing.getg(), bBar));
         }
     }
-    public boolean verifyPFromSign(RevocSecretKey revocSecretKey,Element P){
-        return (e.div(u1.powZn(revocSecretKey.getz()))).isEqual(P);
+    public boolean verifyPFromSign(GSPairing gsPairing,RevocSecretKey revocSecretKey,Element pSent,Element P){
+        return gsPairing.getPairing().pairing(pSent,gsPairing.getg()).isEqual(P);
     }
     public Element message() {
         return message;

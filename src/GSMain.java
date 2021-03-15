@@ -38,19 +38,17 @@ public class GSMain {
         GSPairing gsPairing = new GSPairing();
         final KeyPair managerKeyPair = generateKeyPair(gsPairing, 1);
         final GroupManagerCert grpManagerCert = new GroupManagerCert(managerKeyPair);
-        //managerKeyPair.print();
+        
         final RevocKeyPair revocKeyPair = generateRevocKeyPair(gsPairing);
-        //revocKeyPair.print();
+        
         final Element pSent= gsPairing.getg().powZn(gsPairing.getPairing().getZr().newRandomElement().getImmutable());
         System.out.println("** P sent **\n"+pSent+"\n\n");
         final GroupMemberCert grpMemberCert = joinRequest(gsPairing, managerKeyPair.getSk(),pSent);
-         grpManagerCert.addDetailsOfNewMember(gsPairing,pSent);
+        grpManagerCert.addDetailsOfNewMember(gsPairing,pSent);
         GroupSignature gs= GroupSignature.sign(gsPairing, grpMemberCert,revocKeyPair.getPk(),pSent, gsPairing.getPairing().getZr().newRandomElement().getImmutable());
-        System.out.println("-------\n signature verfied:"+gs.verify(gsPairing,revocKeyPair.getSk(), managerKeyPair.getPk().getY()));
-        grpManagerCert.grpMemberDetailsStored.get(0).getpCalculated();
-        System.out.println("\n-- P stored--\n"+grpManagerCert.grpMemberDetailsStored.get(0).getpCalculated());
+        System.out.println("-------\n signature verfied: "+gs.verify(gsPairing,revocKeyPair.getSk(), managerKeyPair.getPk().getY()));
         
-        System.out.println("\n\n---------\n P verified: "+gs.verifyPFromSign(revocKeyPair.getSk(),gsPairing.getPairing().pairing(pSent, gsPairing.getg())));
+        System.out.println("\n\n---------\n P verified: "+gs.verifyPFromSign(gsPairing,revocKeyPair.getSk(),pSent,grpManagerCert.grpMemberDetailsStored.get(0).getpCalculated()));
         
 
     }    
