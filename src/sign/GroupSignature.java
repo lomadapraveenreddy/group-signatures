@@ -5,7 +5,9 @@ import it.unisa.dia.gas.plaf.jpbc.field.z.ZrElement;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
+import src.join.GrpMemberDetailsToBeStored;
 import src.cert.GroupMemberCert;
 import src.utils.HashSHA256;
 import src.revoc_keygen.RevocKeyPair;
@@ -93,8 +95,14 @@ public class GroupSignature {
                     .isEqual(gsPairing.getPairing().pairing(gsPairing.getg(), bBar));
         }
     }
-    public boolean verifyPFromSign(GSPairing gsPairing,RevocSecretKey revocSecretKey,Element pSent,Element P){
-        return gsPairing.getPairing().pairing(pSent,gsPairing.getg()).isEqual(P);
+    public String getUserFromP(GSPairing gsPairing,RevocSecretKey revocSecretKey,Element pSent,List<GrpMemberDetailsToBeStored> list){
+        for (int i = 0; i < list.size(); i++) {
+            if( gsPairing.getPairing().pairing(pSent,gsPairing.getg()).isEqual(list.get(i).getpCalculated())){
+                return String.valueOf(i);
+            }
+        }
+        return "Invalid group member";
+        
     }
     public Element message() {
         return message;
