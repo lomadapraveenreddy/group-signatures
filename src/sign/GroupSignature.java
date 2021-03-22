@@ -58,7 +58,7 @@ public class GroupSignature {
         final Element u1 = revocPublicKey.getg1().powZn(k);
         final Element u2 = revocPublicKey.getg2().powZn(k);
         final Element encryptValue = pSent;//gsPairing.getPairing().getG1().newRandomElement().getImmutable();
-        System.out.println("\n-- encryptValue --\n\n"+encryptValue);
+        System.out.println("\n-- value of p to be encrypted --\n\n"+encryptValue);
         final Element e = (revocPublicKey.geth().powZn(k)).mul(encryptValue);//gsPairing.getPairing().pairing(pSent,gsPairing.getg())
         //System.out.println("\n--- P while signing---\n"+gsPairing.getPairing().pairing(pSent,gsPairing.getg()));
         try {
