@@ -10,7 +10,7 @@ public class GrpMemberDetailsToBeStored {
     public GrpMemberDetailsToBeStored(GSPairing gsPairing,Element pReceived){
         this.pReceived= pReceived;
         this.pCalculated= gsPairing.getPairing().pairing(pReceived,gsPairing.getg());
-        System.out.println("*** value of P ***\n"+this.pCalculated+"\n\n");
+        System.out.println("*** P Calculated ***\n"+this.pCalculated+"\n\n");
     }
     public Element getpReceived(){
         return pReceived;
